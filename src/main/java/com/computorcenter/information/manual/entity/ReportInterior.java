@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,6 +20,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)
+@Table(
+    indexes = {
+      @Index(name = "idx_order_num", columnList = "order_num", unique = true),
+      @Index(name = "idx_create_time", columnList = "create_time")
+    })
 public class ReportInterior implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -31,6 +33,7 @@ public class ReportInterior implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   /** 序号 */
+  @Column(name = "order_num", unique = true)
   private Long orderNum;
 
   /** 题名 */
@@ -112,6 +115,8 @@ public class ReportInterior implements Serializable {
   private String securityLevel;
 
   /** 摘要 */
+  @Lob
+  @Basic(fetch = FetchType.LAZY)
   private String abs;
 
   /** 形成时间 */
@@ -136,7 +141,9 @@ public class ReportInterior implements Serializable {
   private String referWebsite;
 
   /** 创建时间 */
-  @CreationTimestamp private LocalDateTime createTime;
+  @CreationTimestamp
+  @Column(updatable = false, name = "create_time")
+  private LocalDateTime createTime;
 
   /** 更新时间 */
   @UpdateTimestamp private LocalDateTime updateTime;
