@@ -1,5 +1,6 @@
 package com.computorcenter.information.manual.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -23,14 +25,14 @@ import java.time.LocalDateTime;
 @Table(
     indexes = {
       @Index(name = "idx_order_num", columnList = "order_num", unique = true),
-      @Index(name = "idx_create_time", columnList = "create_time")
+      @Index(name = "idx_create_time_bre", columnList = "create_time")
     })
 public class BriefReportExterior implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   /** 序号 */
   @Column(name = "order_num", unique = true)
@@ -109,7 +111,8 @@ public class BriefReportExterior implements Serializable {
   private String publishDepartment;
 
   /** 等级时间 */
-  private LocalDateTime checkInTime;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private LocalDate checkInTime;
 
   /** 知识类型 */
   private String knowledgeType;
@@ -122,10 +125,9 @@ public class BriefReportExterior implements Serializable {
   @Basic(fetch = FetchType.LAZY)
   private String abs;
 
-  ;
-
   /** 形成时间 */
-  private LocalDateTime formatTime;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private LocalDate formatTime;
 
   /** 知识收集人 */
   private String informationCollactor;

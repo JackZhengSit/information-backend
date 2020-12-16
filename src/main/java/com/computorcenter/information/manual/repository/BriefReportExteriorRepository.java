@@ -13,5 +13,5 @@ public interface BriefReportExteriorRepository extends JpaRepository<BriefReport
 
   //  Optional<BriefReportExterior> findByOrderNum(@Param("orderNum") Long aLong, Pageable p);
   @RestResource(path = "findByOrderNum", rel = "findByOrderNum")
-  public Page findByOrderNum(@Param("orderNum") Long aLong, Pageable p);
+  public Page<BriefReportExterior> findByOrderNum(@Param("orderNum") Long aLong, Pageable p);
 }

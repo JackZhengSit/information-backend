@@ -1,4 +1,4 @@
-package com.computorcenter.information.manual.config;
+package com.computorcenter.information.manual.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
