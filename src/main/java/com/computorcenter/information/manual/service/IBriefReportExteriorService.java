@@ -9,4 +9,7 @@ import com.computorcenter.information.manual.entity.BriefReportExterior;
  * @author Jack
  * @since 2020-11-20
  */
-public interface IBriefReportExteriorService extends IService<BriefReportExterior> {}
+public interface IBriefReportExteriorService extends IService<BriefReportExterior> {
+
+  public boolean manageBriefReportExterior();
+}

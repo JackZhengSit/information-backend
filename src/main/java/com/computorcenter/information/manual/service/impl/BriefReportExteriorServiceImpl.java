@@ -15,4 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class BriefReportExteriorServiceImpl
     extends ServiceImpl<BriefReportExteriorMapper, BriefReportExterior>
-    implements IBriefReportExteriorService {}
+    implements IBriefReportExteriorService {
+
+  @Override
+  public boolean manageBriefReportExterior() {
+    return false;
+  }
+}
