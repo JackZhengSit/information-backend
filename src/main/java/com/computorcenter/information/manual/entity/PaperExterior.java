@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Table(
     indexes = {
-      @Index(name = "idx_order_num", columnList = "order_num", unique = true),
+      @Index(name = "idx_ordernum", columnList = "ordernum", unique = true),
       @Index(name = "idx_create_time_pe", columnList = "create_time")
     })
 public class PaperExterior implements Serializable {
@@ -35,7 +35,7 @@ public class PaperExterior implements Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   /** 序号 */
-  @Column(name = "order_num", unique = true)
+  @Column(name = "ordernum", unique = true)
   private Long orderNum;
 
   /** 论文类型 */

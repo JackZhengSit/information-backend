@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Table(
     indexes = {
-      @Index(name = "idx_order_num", columnList = "order_num", unique = true),
+      @Index(name = "idx_ordernum", columnList = "ordernum", unique = true),
       @Index(name = "idx_create_time_bri", columnList = "create_time")
     })
 public class BriefReportInterior implements Serializable {
@@ -35,7 +35,7 @@ public class BriefReportInterior implements Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   /** 序号 */
-  @Column(name = "order_num", unique = true)
+  @Column(name = "ordernum", unique = true)
   private Long orderNum;
 
   /** 简报名称 */
@@ -146,6 +146,9 @@ public class BriefReportInterior implements Serializable {
 
   /** 参考网址 */
   private String referWebsite;
+
+  /** 文件路径* */
+  private String filePath;
 
   /** 创建时间 */
   @CreationTimestamp
