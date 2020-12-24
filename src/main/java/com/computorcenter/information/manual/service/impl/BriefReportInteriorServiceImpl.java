@@ -10,11 +10,15 @@ import com.computorcenter.information.manual.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.ContextLoader;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 服务实现类
@@ -112,17 +116,27 @@ public class BriefReportInteriorServiceImpl
   @Transactional(rollbackFor = Exception.class)
   public void uploadFile(MultipartFile multipartFile, Long id) throws IOException {
     String savePath =
-        ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/static");
+        ResourceUtils.getURL("classpath:static/file")
+            .getPath()
+            .replace("%20", " ")
+            .replace('/', '\\');
+    //    String savePath = "C:\\workspace\\information-backend\\target\\classes\\static\\file\\";
+    String filename = multipartFile.getOriginalFilename();
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    String dateString = df.format(new Date());
+    savePath += "\\" + dateString + UUID.randomUUID() + filename;
+
     BriefReportInterior entity = new BriefReportInterior();
     entity.setId(id);
     entity.setFilePath(savePath);
-    briefReportInteriorRepository.save(entity);
+
+    briefReportInteriorRepository.updateFilePathById(savePath, id);
     FileUploadUtil.save(multipartFile, savePath);
   }
 
   //  @Autowired BriefReportInteriorMapper briefReportInteriorMapper;
 
-  //  @Override
+  //  @Overrideffffffffff
   //  @Transactional(rollbackFor = Exception.class)
   //  public boolean confirmSaveBriefReportInterior(
   //      ConformSaveBriefReportInterior conformSaveBriefReportInterior) throws Exception {

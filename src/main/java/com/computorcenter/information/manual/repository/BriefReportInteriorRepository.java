@@ -4,11 +4,13 @@ import com.computorcenter.information.manual.entity.BriefReportInterior;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -138,15 +140,10 @@ public interface BriefReportInteriorRepository extends JpaRepository<BriefReport
       @Param("informationOrigin") String informationOrigin,
       @Param("referWebsite") String referWebsite);
 
-  //  public Page
-  //
-  // findBriefReportInteriorByOrderNumBetweenAndNameLikeAndTypeLikeAndCompleteDepartmentLikeAndTitleLikeAndIndustryTypeLike(
-  //          Pageable p,
-  //          @Param("orderNumStart") Long orderNumStart,
-  //          @Param("orderNumEnd") Long orderNumEnd,
-  //          @Param("name") String name,
-  //          @Param("type") String type,
-  //          @Param("completeDepartment") String completeDepartment,
-  //          @Param("title") String title,
-  //          @Param("industryType") String industryType);
+  @Modifying
+  @Transactional
+  @Query(
+      value = "update brief_report_interior set file_path =:filePath  where id = :id",
+      nativeQuery = true)
+  public void updateFilePathById(String filePath, Long id);
 }

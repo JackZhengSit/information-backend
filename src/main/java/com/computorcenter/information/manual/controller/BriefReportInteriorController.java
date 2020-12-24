@@ -35,8 +35,9 @@ public class BriefReportInteriorController {
         conformSaveBriefReportInterior);
   }
 
-  @PostMapping(path = "/upload")
-  public String uploadFile(@RequestParam MultipartFile multipartFile, @RequestParam Long id)
+  @RequestMapping(path = "/upload")
+  public String uploadFile(
+      @RequestParam("file") MultipartFile multipartFile, @RequestParam("id") Long id)
       throws IOException {
     iBriefReportInteriorService.uploadFile(multipartFile, id);
     return "";
