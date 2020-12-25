@@ -148,7 +148,10 @@ public class BriefReportInterior implements Serializable {
   private String referWebsite;
 
   /** 文件路径* */
-  private String filePath;
+  private String fileUrl;
+
+  /** 文件名称* */
+  private String fileName;
 
   /** 创建时间 */
   @CreationTimestamp

@@ -13,11 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -114,24 +116,50 @@ public class BriefReportInteriorServiceImpl
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  public void uploadFile(MultipartFile multipartFile, Long id) throws IOException {
+  public String uploadFile(MultipartFile multipartFile, Long id) throws IOException {
     String savePath =
-        ResourceUtils.getURL("classpath:static/file")
-            .getPath()
-            .replace("%20", " ")
-            .replace('/', '\\');
+        ResourceUtils.getURL("classpath:static").getPath().replace("%20", " ").replace('/', '\\');
     //    String savePath = "C:\\workspace\\information-backend\\target\\classes\\static\\file\\";
     String filename = multipartFile.getOriginalFilename();
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     String dateString = df.format(new Date());
-    savePath += "\\" + dateString + UUID.randomUUID() + filename;
-
+    UUID randomUUID = UUID.randomUUID();
+    savePath += "\\file\\" + dateString + "-" + randomUUID + "-" + filename;
+    String fileUrl = "static/file/" + dateString + "-" + randomUUID + "-" + filename;
     BriefReportInterior entity = new BriefReportInterior();
     entity.setId(id);
-    entity.setFilePath(savePath);
-
-    briefReportInteriorRepository.updateFilePathById(savePath, id);
+    entity.setFileName(filename);
+    entity.setFileUrl(fileUrl);
+    briefReportInteriorRepository.updateFileUrlAndNameById(fileUrl, filename, id);
+    if (isUploaded(id)) {
+      String filePath =
+          ResourceUtils.getURL("classpath:").getPath().replace("%20", " ").replace('/', '\\');
+      filePath += briefReportInteriorRepository.findById(id).get().getFileUrl().replace('/', '\\');
+      FileUploadUtil.delete(filePath);
+    }
     FileUploadUtil.save(multipartFile, savePath);
+    return "保存成功！";
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public String removeFile(Long id) throws FileNotFoundException {
+    if (!isUploaded(id)) return "文件未上传";
+    BriefReportInterior deletOne = briefReportInteriorRepository.getOne(id);
+    briefReportInteriorRepository.updateFileUrlAndNameById("", "", id);
+    String filePath =
+        ResourceUtils.getURL("classpath:").getPath().replace("%20", " ").replace('/', '\\');
+    filePath += deletOne.getFileUrl().replace('/', '\\');
+    boolean isDelete = FileUploadUtil.delete(filePath);
+    if (isDelete) return deletOne.getFileName() + "删除成功！";
+    else return "删除失败！";
+  }
+
+  private boolean isUploaded(Long id) {
+    Optional<BriefReportInterior> briefReportInterior = briefReportInteriorRepository.findById(id);
+    if (briefReportInterior.isPresent() && briefReportInterior.get().getFileName() != null)
+      return true;
+    return false;
   }
 
   //  @Autowired BriefReportInteriorMapper briefReportInteriorMapper;

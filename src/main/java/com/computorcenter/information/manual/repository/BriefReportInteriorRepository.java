@@ -143,7 +143,8 @@ public interface BriefReportInteriorRepository extends JpaRepository<BriefReport
   @Modifying
   @Transactional
   @Query(
-      value = "update brief_report_interior set file_path =:filePath  where id = :id",
+      value =
+          "update brief_report_interior set file_url =:fileUrl ,file_name=:filename where id = :id",
       nativeQuery = true)
-  public void updateFilePathById(String filePath, Long id);
+  public void updateFileUrlAndNameById(String fileUrl, String filename, Long id);
 }

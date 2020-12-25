@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -39,8 +40,12 @@ public class BriefReportInteriorController {
   public String uploadFile(
       @RequestParam("file") MultipartFile multipartFile, @RequestParam("id") Long id)
       throws IOException {
-    iBriefReportInteriorService.uploadFile(multipartFile, id);
-    return "";
+    return iBriefReportInteriorService.uploadFile(multipartFile, id);
+  }
+
+  @RequestMapping(path = "/remove")
+  public String removeFile(@RequestParam("id") Long id) throws FileNotFoundException {
+    return iBriefReportInteriorService.removeFile(id);
   }
 
   //  @PostMapping(path="/search",consumes = MediaType.APPLICATION_JSON_VALUE,produces =

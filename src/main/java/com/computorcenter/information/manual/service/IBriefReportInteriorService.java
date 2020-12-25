@@ -5,6 +5,7 @@ import com.computorcenter.information.manual.controller.requestbody.ConformSaveB
 import com.computorcenter.information.manual.entity.BriefReportInterior;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -17,5 +18,7 @@ public interface IBriefReportInteriorService extends IService<BriefReportInterio
   public boolean confirmSaveBriefReportInterior(
       ConformSaveBriefReportInterior conformSaveBriefReportInterior) throws Exception;
 
-  public void uploadFile(MultipartFile multipartFile, Long id) throws IOException;
+  public String uploadFile(MultipartFile multipartFile, Long id) throws IOException;
+
+  public String removeFile(Long id) throws FileNotFoundException;
 }
