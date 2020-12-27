@@ -37,15 +37,15 @@ public class BriefReportInteriorController {
   }
 
   @RequestMapping(path = "/upload")
-  public String uploadFile(
-      @RequestParam("file") MultipartFile multipartFile, @RequestParam("id") Long id)
-      throws IOException {
-    return iBriefReportInteriorService.uploadFile(multipartFile, id);
+  public void uploadFile(
+          @RequestParam("file") MultipartFile multipartFile, @RequestParam("id") Long id)
+          throws IOException {
+    iBriefReportInteriorService.uploadFile(multipartFile, id);
   }
 
   @RequestMapping(path = "/remove")
-  public String removeFile(@RequestParam("id") Long id) throws FileNotFoundException {
-    return iBriefReportInteriorService.removeFile(id);
+  public void removeFile(@RequestParam("id") Long id) throws FileNotFoundException {
+    iBriefReportInteriorService.removeFile(id);
   }
 
   //  @PostMapping(path="/search",consumes = MediaType.APPLICATION_JSON_VALUE,produces =

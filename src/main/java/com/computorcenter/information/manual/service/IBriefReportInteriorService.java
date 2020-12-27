@@ -18,7 +18,7 @@ public interface IBriefReportInteriorService extends IService<BriefReportInterio
   public boolean confirmSaveBriefReportInterior(
       ConformSaveBriefReportInterior conformSaveBriefReportInterior) throws Exception;
 
-  public String uploadFile(MultipartFile multipartFile, Long id) throws IOException;
+  public void uploadFile(MultipartFile multipartFile, Long id) throws IOException;
 
-  public String removeFile(Long id) throws FileNotFoundException;
+  public void removeFile(Long id) throws FileNotFoundException;
 }

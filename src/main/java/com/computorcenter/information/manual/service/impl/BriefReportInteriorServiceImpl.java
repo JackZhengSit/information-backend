@@ -68,6 +68,13 @@ public class BriefReportInteriorServiceImpl
     if (removeBriefReportInterior != null) {
       if (!removeBriefReportInterior.isEmpty()) {
         briefReportInteriorRepository.deleteAll(removeBriefReportInterior);
+        removeBriefReportInterior.forEach(b -> {
+          try {
+            deleteFileById(b.getId());
+          } catch (FileNotFoundException e) {
+            e.printStackTrace();
+          }
+        });
         isRemove = true;
       } else {
         isRemove = true;
@@ -116,10 +123,13 @@ public class BriefReportInteriorServiceImpl
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  public String uploadFile(MultipartFile multipartFile, Long id) throws IOException {
+  public void uploadFile(MultipartFile multipartFile, Long id) throws IOException {
     String savePath =
-        ResourceUtils.getURL("classpath:static").getPath().replace("%20", " ").replace('/', '\\');
-    //    String savePath = "C:\\workspace\\information-backend\\target\\classes\\static\\file\\";
+            ResourceUtils.getURL("classpath:static").getPath().replace("%20", " ").replace('/', '\\');
+
+    //如果已经存在先删除旧的文件
+    deleteFileById(id);
+
     String filename = multipartFile.getOriginalFilename();
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     String dateString = df.format(new Date());
@@ -131,28 +141,25 @@ public class BriefReportInteriorServiceImpl
     entity.setFileName(filename);
     entity.setFileUrl(fileUrl);
     briefReportInteriorRepository.updateFileUrlAndNameById(fileUrl, filename, id);
-    if (isUploaded(id)) {
-      String filePath =
-          ResourceUtils.getURL("classpath:").getPath().replace("%20", " ").replace('/', '\\');
-      filePath += briefReportInteriorRepository.findById(id).get().getFileUrl().replace('/', '\\');
-      FileUploadUtil.delete(filePath);
-    }
     FileUploadUtil.save(multipartFile, savePath);
-    return "保存成功！";
   }
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  public String removeFile(Long id) throws FileNotFoundException {
-    if (!isUploaded(id)) return "文件未上传";
-    BriefReportInterior deletOne = briefReportInteriorRepository.getOne(id);
+  public void removeFile(Long id) throws FileNotFoundException {
+    deleteFileById(id);
     briefReportInteriorRepository.updateFileUrlAndNameById("", "", id);
-    String filePath =
-        ResourceUtils.getURL("classpath:").getPath().replace("%20", " ").replace('/', '\\');
-    filePath += deletOne.getFileUrl().replace('/', '\\');
-    boolean isDelete = FileUploadUtil.delete(filePath);
-    if (isDelete) return deletOne.getFileName() + "删除成功！";
-    else return "删除失败！";
+  }
+
+  private void deleteFileById(Long id) throws FileNotFoundException {
+    if (isUploaded(id)) {
+      String filePath =
+              ResourceUtils.getURL("classpath:").getPath().replace("%20", " ").replace('/', '\\');
+      BriefReportInterior deleteone = briefReportInteriorRepository.getOne(id);
+      if (deleteone.getFileUrl() != null)
+        filePath += deleteone.getFileUrl().replace('/', '\\');
+      FileUploadUtil.delete(filePath);
+    }
   }
 
   private boolean isUploaded(Long id) {
