@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public interface IBriefReportInteriorService extends IService<BriefReportInterior> {
   public boolean confirmSaveBriefReportInterior(
-      ConformSaveBriefReportInterior conformSaveBriefReportInterior) throws Exception;
+      ConformSaveBriefReportInterior conformSaveBriefReport) throws Exception;
 
   public void uploadFile(MultipartFile multipartFile, Long id) throws IOException;
 

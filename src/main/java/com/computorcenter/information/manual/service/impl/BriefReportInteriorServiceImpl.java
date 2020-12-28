@@ -37,21 +37,18 @@ public class BriefReportInteriorServiceImpl
   @Override
   @Transactional(rollbackFor = Exception.class)
   public boolean confirmSaveBriefReportInterior(
-      ConformSaveBriefReportInterior conformSaveBriefReportInterior) throws Exception {
+      ConformSaveBriefReportInterior conformSaveBriefReport) throws Exception {
     boolean isInsert = false, isUpdate = false, isDelete = false, isRemove = false;
 
-    //        if(!conformSaveBriefReportInterior==null)
-    List<BriefReportInterior> insertBriefReportInterior =
-        conformSaveBriefReportInterior.getInsertRecords();
+    List<BriefReportInterior> insertBriefReportInterior = conformSaveBriefReport.getInsertRecords();
 
     List<BriefReportInterior> removeBriefReportInterior =
-        conformSaveBriefReportInterior.getPendingRecords();
+        conformSaveBriefReport.getPendingRecords();
 
-    List<BriefReportInterior> updateBriefReportInterior =
-        conformSaveBriefReportInterior.getUpdateRecords();
+    List<BriefReportInterior> updateBriefReportInterior = conformSaveBriefReport.getUpdateRecords();
 
     List<BriefReportInterior> deleteBriefReportInteriorList =
-        conformSaveBriefReportInterior.getRemoveRecords();
+        conformSaveBriefReport.getRemoveRecords();
 
     if (insertBriefReportInterior != null) {
       if (!insertBriefReportInterior.isEmpty()) {
@@ -68,13 +65,14 @@ public class BriefReportInteriorServiceImpl
     if (removeBriefReportInterior != null) {
       if (!removeBriefReportInterior.isEmpty()) {
         briefReportInteriorRepository.deleteAll(removeBriefReportInterior);
-        removeBriefReportInterior.forEach(b -> {
-          try {
-            deleteFileById(b.getId());
-          } catch (FileNotFoundException e) {
-            e.printStackTrace();
-          }
-        });
+        removeBriefReportInterior.forEach(
+            b -> {
+              try {
+                deleteFileById(b.getId());
+              } catch (FileNotFoundException e) {
+                e.printStackTrace();
+              }
+            });
         isRemove = true;
       } else {
         isRemove = true;
@@ -125,17 +123,18 @@ public class BriefReportInteriorServiceImpl
   @Transactional(rollbackFor = Exception.class)
   public void uploadFile(MultipartFile multipartFile, Long id) throws IOException {
     String savePath =
-            ResourceUtils.getURL("classpath:static").getPath().replace("%20", " ").replace('/', '\\');
+        ResourceUtils.getURL("classpath:static").getPath().replace("%20", " ").replace('/', '\\');
 
-    //如果已经存在先删除旧的文件
+    // 如果已经存在先删除旧的文件
     deleteFileById(id);
 
     String filename = multipartFile.getOriginalFilename();
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     String dateString = df.format(new Date());
     UUID randomUUID = UUID.randomUUID();
-    savePath += "\\file\\" + dateString + "-" + randomUUID + "-" + filename;
-    String fileUrl = "static/file/" + dateString + "-" + randomUUID + "-" + filename;
+    savePath += "\\file\\brief-report-interior\\" + dateString + "-" + randomUUID + "-" + filename;
+    String fileUrl =
+        "static/file/brief-report-interior/" + dateString + "-" + randomUUID + "-" + filename;
     BriefReportInterior entity = new BriefReportInterior();
     entity.setId(id);
     entity.setFileName(filename);
@@ -154,10 +153,9 @@ public class BriefReportInteriorServiceImpl
   private void deleteFileById(Long id) throws FileNotFoundException {
     if (isUploaded(id)) {
       String filePath =
-              ResourceUtils.getURL("classpath:").getPath().replace("%20", " ").replace('/', '\\');
+          ResourceUtils.getURL("classpath:").getPath().replace("%20", " ").replace('/', '\\');
       BriefReportInterior deleteone = briefReportInteriorRepository.getOne(id);
-      if (deleteone.getFileUrl() != null)
-        filePath += deleteone.getFileUrl().replace('/', '\\');
+      if (deleteone.getFileUrl() != null) filePath += deleteone.getFileUrl().replace('/', '\\');
       FileUploadUtil.delete(filePath);
     }
   }

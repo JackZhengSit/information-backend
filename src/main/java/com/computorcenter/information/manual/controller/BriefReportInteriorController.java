@@ -30,16 +30,15 @@ public class BriefReportInteriorController {
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
-  public Boolean conformSave(
-      @RequestBody ConformSaveBriefReportInterior conformSaveBriefReportInterior) throws Exception {
-    return iBriefReportInteriorService.confirmSaveBriefReportInterior(
-        conformSaveBriefReportInterior);
+  public Boolean conformSave(@RequestBody ConformSaveBriefReportInterior conformSaveBriefReport)
+      throws Exception {
+    return iBriefReportInteriorService.confirmSaveBriefReportInterior(conformSaveBriefReport);
   }
 
   @RequestMapping(path = "/upload")
   public void uploadFile(
-          @RequestParam("file") MultipartFile multipartFile, @RequestParam("id") Long id)
-          throws IOException {
+      @RequestParam("file") MultipartFile multipartFile, @RequestParam("id") Long id)
+      throws IOException {
     iBriefReportInteriorService.uploadFile(multipartFile, id);
   }
 

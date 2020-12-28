@@ -45,7 +45,7 @@ public interface BriefReportInteriorRepository extends JpaRepository<BriefReport
   //        + " and check_in_time between :checkInTimeStart and :checkInTimeEnd"
   //        + " and knowledge_type like %:knowledgeType%"
   //        + " and security_level like %:securityLevel%"
-  //        + " and abs like %:abs%"
+
   //        + " and format_time between :formatTimeStart and :formatTimeEnd"
   //        + " and information_collactor like %:informationCollactor%"
   //        + " and information_auditor like %:informationAuditor%"
@@ -53,7 +53,8 @@ public interface BriefReportInteriorRepository extends JpaRepository<BriefReport
   //        + " and keywords like %:keywords%"
   //        + " and information_origin like %:informationOrigin%"
   //        + " and refer_website like %:referWebsite%"
-  @RestResource(path = "manageSearch", rel = "manageSearch")
+
+  @RestResource(path = "manageSearch", rel = "manageSearch", exported = true)
   @Query(
       value =
           "select * from brief_report_interior "
@@ -85,7 +86,6 @@ public interface BriefReportInteriorRepository extends JpaRepository<BriefReport
               + " and (check_in_time is null or  check_in_time between :checkInTimeStart and :checkInTimeEnd)"
               + " and (knowledge_type is null or  knowledge_type like %:knowledgeType%)"
               + " and (security_level is null or  security_level like %:securityLevel%)"
-              + " and (abs is null or  abs like %:abs%)"
               + " and (format_time is null or  format_time between :formatTimeStart and :formatTimeEnd)"
               + " and (information_collactor is null or  information_collactor like %:informationCollactor%)"
               + " and (information_auditor is null or  information_auditor like %:informationAuditor%)"
@@ -128,7 +128,6 @@ public interface BriefReportInteriorRepository extends JpaRepository<BriefReport
           LocalDate checkInTimeEnd,
       @Param("knowledgeType") String knowledgeType,
       @Param("securityLevel") String securityLevel,
-      @Param("abs") String abs,
       @Param("formatTimeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate formatTimeStart,
       @Param("formatTimeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
