@@ -1,6 +1,6 @@
 package com.computorcenter.information.manual.controller;
 
-import com.computorcenter.information.manual.controller.requestbody.ConformSaveBriefReportExterior;
+import com.computorcenter.information.manual.controller.requestbody.ConfirmSaveBriefReportExterior;
 import com.computorcenter.information.manual.service.IBriefReportExteriorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +23,12 @@ public class BriefReportExteriorController {
   @Autowired private IBriefReportExteriorService briefReportExteriorService;
 
   @PostMapping(
-      path = "/save",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+          path = "/save",
+          consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
-  public Boolean conformSave(@RequestBody ConformSaveBriefReportExterior conformSaveBriefReport)
-      throws Exception {
+  public Boolean conformSave(@RequestBody ConfirmSaveBriefReportExterior conformSaveBriefReport)
+          throws Exception {
     return briefReportExteriorService.confirmSaveBriefReportExterior(conformSaveBriefReport);
   }
 

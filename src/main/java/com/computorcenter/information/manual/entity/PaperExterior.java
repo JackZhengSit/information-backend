@@ -1,5 +1,6 @@
 package com.computorcenter.information.manual.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * @author Jack
@@ -45,8 +46,11 @@ public class PaperExterior extends InfoBase implements Serializable {
   /** 文献来源 */
   private String informationComeFrom;
 
-  /** 发表时间 */
-  private LocalDateTime publicationTime;
+  /**
+   * 发表时间
+   */
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private LocalDate publicationTime;
 
   /** 文献类型 */
   private String documentType;
@@ -63,8 +67,11 @@ public class PaperExterior extends InfoBase implements Serializable {
   /** 出版单位 */
   private String publicateCompony;
 
-  /** 出版时间 */
-  private LocalDateTime publicateTime;
+  /**
+   * 出版时间
+   */
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private LocalDate publicateTime;
 
   /** 会议地址 */
   private String conferenceSite;
@@ -72,8 +79,11 @@ public class PaperExterior extends InfoBase implements Serializable {
   /** 会议名称 */
   private String conferenceName;
 
-  /** 会议时间 */
-  private LocalDateTime conferenceDate;
+  /**
+   * 会议时间
+   */
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private LocalDate conferenceDate;
 
   /** 中图分类号 */
   private String chineseClassNum;

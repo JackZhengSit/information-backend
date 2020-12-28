@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ConformSaveIndustryTrend {
+public class ConfirmSaveIndustryTrend {
   List<IndustryTrend> insertRecords;
   List<IndustryTrend> pendingRecords;
   List<IndustryTrend> removeRecords;

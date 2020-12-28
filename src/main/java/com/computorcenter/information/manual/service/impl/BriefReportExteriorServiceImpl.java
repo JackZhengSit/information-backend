@@ -1,7 +1,7 @@
 package com.computorcenter.information.manual.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.computorcenter.information.manual.controller.requestbody.ConformSaveBriefReportExterior;
+import com.computorcenter.information.manual.controller.requestbody.ConfirmSaveBriefReportExterior;
 import com.computorcenter.information.manual.entity.BriefReportExterior;
 import com.computorcenter.information.manual.mapper.BriefReportExteriorMapper;
 import com.computorcenter.information.manual.repository.BriefReportExteriorRepository;
@@ -38,17 +38,17 @@ public class BriefReportExteriorServiceImpl
   @Override
   @Transactional(rollbackFor = Exception.class)
   public boolean confirmSaveBriefReportExterior(
-      ConformSaveBriefReportExterior conformSaveBriefReport) throws Exception {
+          ConfirmSaveBriefReportExterior conformSaveBriefReport) throws Exception {
     boolean isInsert = false, isUpdate = false, isDelete = false, isRemove = false;
     List<BriefReportExterior> insertBriefReportExterior = conformSaveBriefReport.getInsertRecords();
 
     List<BriefReportExterior> removeBriefReportExterior =
-        conformSaveBriefReport.getPendingRecords();
+            conformSaveBriefReport.getPendingRecords();
 
     List<BriefReportExterior> updateBriefReportExterior = conformSaveBriefReport.getUpdateRecords();
 
     List<BriefReportExterior> deleteBriefReportExteriorList =
-        conformSaveBriefReport.getRemoveRecords();
+            conformSaveBriefReport.getRemoveRecords();
 
     if (insertBriefReportExterior != null) {
       if (!insertBriefReportExterior.isEmpty()) {

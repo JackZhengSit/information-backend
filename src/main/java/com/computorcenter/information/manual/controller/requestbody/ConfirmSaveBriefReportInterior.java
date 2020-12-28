@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ConformSaveBriefReportInterior {
+public class ConfirmSaveBriefReportInterior {
   List<BriefReportInterior> insertRecords;
   List<BriefReportInterior> pendingRecords;
   List<BriefReportInterior> removeRecords;

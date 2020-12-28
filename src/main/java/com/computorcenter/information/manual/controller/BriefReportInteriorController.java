@@ -1,6 +1,6 @@
 package com.computorcenter.information.manual.controller;
 
-import com.computorcenter.information.manual.controller.requestbody.ConformSaveBriefReportInterior;
+import com.computorcenter.information.manual.controller.requestbody.ConfirmSaveBriefReportInterior;
 import com.computorcenter.information.manual.service.IBriefReportInteriorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +26,12 @@ public class BriefReportInteriorController {
   @Autowired private IBriefReportInteriorService iBriefReportInteriorService;
 
   @PostMapping(
-      path = "/save",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+          path = "/save",
+          consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
-  public Boolean conformSave(@RequestBody ConformSaveBriefReportInterior conformSaveBriefReport)
-      throws Exception {
+  public Boolean conformSave(@RequestBody ConfirmSaveBriefReportInterior conformSaveBriefReport)
+          throws Exception {
     return iBriefReportInteriorService.confirmSaveBriefReportInterior(conformSaveBriefReport);
   }
 

@@ -20,11 +20,18 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(
-    indexes = {
-      @Index(name = "idx_ordernum", columnList = "ordernum", unique = true),
-      @Index(name = "idx_create_time_it", columnList = "create_time")
-    })
+        indexes = {
+                @Index(name = "idx_ordernum", columnList = "ordernum", unique = true),
+                @Index(name = "idx_create_time_it", columnList = "create_time")
+        })
 public class IndustryTrend extends InfoBase implements Serializable {
-  /** 题名 */
-  private String title;
+    /**
+     * 题名
+     */
+    private String title;
+
+    /**
+     * 动态类型
+     **/
+    private String trendType;
 }

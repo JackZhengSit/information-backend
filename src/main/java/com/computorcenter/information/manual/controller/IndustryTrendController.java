@@ -1,6 +1,6 @@
 package com.computorcenter.information.manual.controller;
 
-import com.computorcenter.information.manual.controller.requestbody.ConformSaveIndustryTrend;
+import com.computorcenter.information.manual.controller.requestbody.ConfirmSaveIndustryTrend;
 import com.computorcenter.information.manual.service.IIndustryTrendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +23,13 @@ public class IndustryTrendController {
   @Autowired private IIndustryTrendService industryTrendService;
 
   @PostMapping(
-      path = "/save",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+          path = "/save",
+          consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
-  public Boolean conformSave(@RequestBody ConformSaveIndustryTrend conformSaveIndustryTrend)
-      throws Exception {
-    return industryTrendService.confirmSaveIndustryTrend(conformSaveIndustryTrend);
+  public Boolean conformSave(@RequestBody ConfirmSaveIndustryTrend confirmSaveIndustryTrend)
+          throws Exception {
+    return industryTrendService.confirmSaveIndustryTrend(confirmSaveIndustryTrend);
   }
 
   @RequestMapping(path = "/upload")

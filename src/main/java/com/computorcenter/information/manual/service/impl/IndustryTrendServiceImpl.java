@@ -1,7 +1,7 @@
 package com.computorcenter.information.manual.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.computorcenter.information.manual.controller.requestbody.ConformSaveIndustryTrend;
+import com.computorcenter.information.manual.controller.requestbody.ConfirmSaveIndustryTrend;
 import com.computorcenter.information.manual.entity.IndustryTrend;
 import com.computorcenter.information.manual.mapper.IndustryTrendMapper;
 import com.computorcenter.information.manual.repository.IndustryTrendRepository;
@@ -35,16 +35,16 @@ public class IndustryTrendServiceImpl extends ServiceImpl<IndustryTrendMapper, I
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  public boolean confirmSaveIndustryTrend(ConformSaveIndustryTrend conformSaveIndustryTrend)
-      throws Exception {
+  public boolean confirmSaveIndustryTrend(ConfirmSaveIndustryTrend confirmSaveIndustryTrend)
+          throws Exception {
     boolean isInsert = false, isUpdate = false, isDelete = false, isRemove = false;
-    List<IndustryTrend> insertIndustryTrend = conformSaveIndustryTrend.getInsertRecords();
+    List<IndustryTrend> insertIndustryTrend = confirmSaveIndustryTrend.getInsertRecords();
 
-    List<IndustryTrend> removeIndustryTrend = conformSaveIndustryTrend.getPendingRecords();
+    List<IndustryTrend> removeIndustryTrend = confirmSaveIndustryTrend.getPendingRecords();
 
-    List<IndustryTrend> updateIndustryTrend = conformSaveIndustryTrend.getUpdateRecords();
+    List<IndustryTrend> updateIndustryTrend = confirmSaveIndustryTrend.getUpdateRecords();
 
-    List<IndustryTrend> deleteIndustryTrendList = conformSaveIndustryTrend.getRemoveRecords();
+    List<IndustryTrend> deleteIndustryTrendList = confirmSaveIndustryTrend.getRemoveRecords();
 
     if (insertIndustryTrend != null) {
       if (!insertIndustryTrend.isEmpty()) {
