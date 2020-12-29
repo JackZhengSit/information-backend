@@ -5,7 +5,6 @@ import com.computorcenter.information.manual.controller.requestbody.ConfirmSaveP
 import com.computorcenter.information.manual.entity.PaperExterior;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -20,5 +19,5 @@ public interface IPaperExteriorService extends IService<PaperExterior> {
 
     public void uploadFile(MultipartFile multipartFile, Long id) throws IOException;
 
-    public void removeFile(Long id) throws FileNotFoundException;
+    public void removeFile(Long id) throws IOException;
 }

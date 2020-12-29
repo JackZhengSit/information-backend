@@ -6,15 +6,17 @@ import com.computorcenter.information.manual.entity.PatentExterior;
 import com.computorcenter.information.manual.mapper.PatentExteriorMapper;
 import com.computorcenter.information.manual.repository.PatentExteriorRepository;
 import com.computorcenter.information.manual.service.IPatentExteriorService;
-import com.computorcenter.information.manual.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,7 +70,8 @@ public class PatentExteriorServiceImpl extends ServiceImpl<PatentExteriorMapper,
                         b -> {
                             try {
                                 deleteFileById(b.getId());
-                            } catch (FileNotFoundException e) {
+
+                            } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         });
@@ -118,12 +121,14 @@ public class PatentExteriorServiceImpl extends ServiceImpl<PatentExteriorMapper,
         return isSuccess;
     }
 
+    @Value(value = "${custom-properties.static-path}")
+    private String staticPath;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void uploadFile(MultipartFile multipartFile, Long id) throws IOException {
-        String savePath =
-                ResourceUtils.getURL("classpath:static").getPath().replace("%20", " ").replace('/', '\\');
 
+        String savePathStr = staticPath;
         // 如果已经存在先删除旧的文件
         deleteFileById(id);
 
@@ -131,38 +136,46 @@ public class PatentExteriorServiceImpl extends ServiceImpl<PatentExteriorMapper,
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = df.format(new Date());
         UUID randomUUID = UUID.randomUUID();
-        savePath += "\\file\\patent-exterior\\" + dateString + "-" + randomUUID + "-" + filename;
-        String fileUrl =
-                "static/file/patent-exterior/" + dateString + "-" + randomUUID + "-" + filename;
-        PatentExterior entity = new PatentExterior();
-        entity.setId(id);
-        entity.setFileName(filename);
-        entity.setFileUrl(fileUrl);
-        patentExteriorRepository.updateFileUrlAndNameById(fileUrl, filename, id);
-        FileUploadUtil.save(multipartFile, savePath);
+        String uniqueFileName = dateString + "-" + randomUUID + "-" + filename;
+
+        savePathStr += "/file/patent-exterior";
+        Path savePath = getFileStoreAbsolutePath(savePathStr);
+        Path targetLocation = savePath.resolve(uniqueFileName);
+        Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+        patentExteriorRepository.updateFileUrlAndNameById(uniqueFileName, filename, id);
+
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void removeFile(Long id) throws FileNotFoundException {
+    public void removeFile(Long id) throws IOException {
         deleteFileById(id);
-        patentExteriorRepository.updateFileUrlAndNameById("", "", id);
+        patentExteriorRepository.updateFileUrlAndNameById(null, null, id);
     }
 
-    private void deleteFileById(Long id) throws FileNotFoundException {
+    private void deleteFileById(Long id) throws IOException {
         if (isUploaded(id)) {
-            String filePath =
-                    ResourceUtils.getURL("classpath:").getPath().replace("%20", " ").replace('/', '\\');
+            String filePath = staticPath + "/file/patent-exterior";
             PatentExterior deleteone = patentExteriorRepository.getOne(id);
-            if (deleteone.getFileUrl() != null) filePath += deleteone.getFileUrl().replace('/', '\\');
-            FileUploadUtil.delete(filePath);
+            if (deleteone.getFileUrl() != null) {
+                Path targetPath = Paths.get(filePath).toAbsolutePath().normalize().resolve(deleteone.getFileUrl());
+                Files.deleteIfExists(targetPath);
+            }
         }
     }
 
     private boolean isUploaded(Long id) {
-        Optional<PatentExterior> PatentExterior = patentExteriorRepository.findById(id);
-        if (PatentExterior.isPresent() && PatentExterior.get().getFileName() != null)
+        Optional<PatentExterior> briefReportExterior = patentExteriorRepository.findById(id);
+        boolean hasFileName = briefReportExterior.isPresent() && briefReportExterior.get().getFileName() != null;
+        if (hasFileName)
             return true;
         return false;
+    }
+
+    private Path getFileStoreAbsolutePath(String relativePathStr) throws IOException {
+        Path path = Paths.get(relativePathStr).toAbsolutePath().normalize();
+        Files.createDirectories(path);
+        return path;
     }
 }

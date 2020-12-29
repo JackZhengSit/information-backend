@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -40,7 +39,7 @@ public class BriefReportExteriorController {
   }
 
   @RequestMapping(path = "/remove")
-  public void removeFile(@RequestParam("id") Long id) throws FileNotFoundException {
+  public void removeFile(@RequestParam("id") Long id) throws IOException {
     briefReportExteriorService.removeFile(id);
   }
 }
