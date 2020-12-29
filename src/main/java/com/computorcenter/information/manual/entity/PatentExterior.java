@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * @author Jack
@@ -32,13 +32,13 @@ public class PatentExterior extends InfoBase implements Serializable {
   private String applicationNo;
 
   /** 申请日 */
-  private LocalDateTime applicationDay;
+  private LocalDate applicationDay;
 
   /** 授权号 */
   private String publicationNo;
 
   /** 授权日 */
-  private LocalDateTime publicationDay;
+  private LocalDate publicationDay;
 
   /** 申请类型 */
   private String applicationType;
@@ -64,7 +64,7 @@ public class PatentExterior extends InfoBase implements Serializable {
   private String priorityNum;
 
   /** 优先权日 */
-  private LocalDateTime priorityDay;
+  private LocalDate priorityDay;
 
   /** 主分类号 */
   private String mainClassNum;

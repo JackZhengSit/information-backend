@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * @author Jack
@@ -34,10 +34,10 @@ public class StandardExterior extends InfoBase implements Serializable {
   private String num;
 
   /** 发布日 */
-  private LocalDateTime publicateDate;
+  private LocalDate publicateDate;
 
   /** 实施日 */
-  private LocalDateTime executeDate;
+  private LocalDate executeDate;
 
   /** 归口单位 */
   private String specifyInstitution;
