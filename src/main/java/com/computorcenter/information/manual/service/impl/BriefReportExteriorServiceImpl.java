@@ -6,15 +6,17 @@ import com.computorcenter.information.manual.entity.BriefReportExterior;
 import com.computorcenter.information.manual.mapper.BriefReportExteriorMapper;
 import com.computorcenter.information.manual.repository.BriefReportExteriorRepository;
 import com.computorcenter.information.manual.service.IBriefReportExteriorService;
-import com.computorcenter.information.manual.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,10 +32,12 @@ import java.util.UUID;
  */
 @Service
 public class BriefReportExteriorServiceImpl
-    extends ServiceImpl<BriefReportExteriorMapper, BriefReportExterior>
-    implements IBriefReportExteriorService {
+        extends ServiceImpl<BriefReportExteriorMapper, BriefReportExterior>
+        implements IBriefReportExteriorService {
 
-  @Autowired BriefReportExteriorRepository briefReportExteriorRepository;
+
+  @Autowired
+  BriefReportExteriorRepository briefReportExteriorRepository;
 
   @Override
   @Transactional(rollbackFor = Exception.class)
@@ -69,7 +73,7 @@ public class BriefReportExteriorServiceImpl
             b -> {
               try {
                 deleteFileById(b.getId());
-              } catch (FileNotFoundException e) {
+              } catch (IOException e) {
                 e.printStackTrace();
               }
             });
@@ -107,24 +111,27 @@ public class BriefReportExteriorServiceImpl
     boolean isSuccess = isInsert && isRemove && isUpdate && isDelete;
     if (!isSuccess) {
       throw new Exception(
-          "保存失败！insert:"
-              + isInsert
-              + ",pending:"
-              + isRemove
-              + ",update:"
-              + isUpdate
-              + ",delete:"
-              + isDelete);
+              "保存失败！insert:"
+                      + isInsert
+                      + ",pending:"
+                      + isRemove
+                      + ",update:"
+                      + isUpdate
+                      + ",delete:"
+                      + isDelete);
     }
     return isSuccess;
   }
 
+
+  @Value(value = "${custom-properties.static-path}")
+  private String staticPath;
+
   @Override
   @Transactional(rollbackFor = Exception.class)
   public void uploadFile(MultipartFile multipartFile, Long id) throws IOException {
-    String savePath =
-        ResourceUtils.getURL("classpath:static").getPath().replace("%20", " ").replace('/', '\\');
 
+    String savePathStr = staticPath;
     // 如果已经存在先删除旧的文件
     deleteFileById(id);
 
@@ -132,38 +139,46 @@ public class BriefReportExteriorServiceImpl
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     String dateString = df.format(new Date());
     UUID randomUUID = UUID.randomUUID();
-    savePath += "\\file\\brief-report-exterior\\" + dateString + "-" + randomUUID + "-" + filename;
-    String fileUrl =
-        "static/file/brief-report-exterior/" + dateString + "-" + randomUUID + "-" + filename;
-    BriefReportExterior entity = new BriefReportExterior();
-    entity.setId(id);
-    entity.setFileName(filename);
-    entity.setFileUrl(fileUrl);
-    briefReportExteriorRepository.updateFileUrlAndNameById(fileUrl, filename, id);
-    FileUploadUtil.save(multipartFile, savePath);
+    String uniqueFileName = dateString + "-" + randomUUID + "-" + filename;
+
+    savePathStr += "/file/brief-report-exterior";
+    Path savePath = getFileStoreAbsolutePath(savePathStr);
+    Path targetLocation = savePath.resolve(uniqueFileName);
+    Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+    briefReportExteriorRepository.updateFileUrlAndNameById(uniqueFileName, filename, id);
+
   }
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  public void removeFile(Long id) throws FileNotFoundException {
+  public void removeFile(Long id) throws IOException {
     deleteFileById(id);
-    briefReportExteriorRepository.updateFileUrlAndNameById("", "", id);
+    briefReportExteriorRepository.updateFileUrlAndNameById(null, null, id);
   }
 
-  private void deleteFileById(Long id) throws FileNotFoundException {
+  private void deleteFileById(Long id) throws IOException {
     if (isUploaded(id)) {
-      String filePath =
-          ResourceUtils.getURL("classpath:").getPath().replace("%20", " ").replace('/', '\\');
+      String filePath = staticPath + "/file/brief-report-exterior";
       BriefReportExterior deleteone = briefReportExteriorRepository.getOne(id);
-      if (deleteone.getFileUrl() != null) filePath += deleteone.getFileUrl().replace('/', '\\');
-      FileUploadUtil.delete(filePath);
+      if (deleteone.getFileUrl() != null) {
+        Path targetPath = Paths.get(filePath).toAbsolutePath().normalize().resolve(deleteone.getFileUrl());
+        Files.deleteIfExists(targetPath);
+      }
     }
   }
 
   private boolean isUploaded(Long id) {
     Optional<BriefReportExterior> briefReportExterior = briefReportExteriorRepository.findById(id);
-    if (briefReportExterior.isPresent() && briefReportExterior.get().getFileName() != null)
+    boolean hasFileName = briefReportExterior.isPresent() && briefReportExterior.get().getFileName() != null;
+    if (hasFileName)
       return true;
     return false;
+  }
+
+  private Path getFileStoreAbsolutePath(String relativePathStr) throws IOException {
+    Path path = Paths.get(relativePathStr).toAbsolutePath().normalize();
+    Files.createDirectories(path);
+    return path;
   }
 }

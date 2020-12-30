@@ -5,7 +5,6 @@ import com.computorcenter.information.manual.controller.requestbody.ConfirmSaveB
 import com.computorcenter.information.manual.entity.BriefReportExterior;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -21,5 +20,5 @@ public interface IBriefReportExteriorService extends IService<BriefReportExterio
 
   public void uploadFile(MultipartFile multipartFile, Long id) throws IOException;
 
-  public void removeFile(Long id) throws FileNotFoundException;
+  public void removeFile(Long id) throws IOException;
 }
