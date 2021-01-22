@@ -63,4 +63,7 @@ public interface InformationRepository extends JpaRepository<ViewInformation, Lo
               + ") where ROWNUM <=3",
       nativeQuery = true)
   public List<ViewInformation> getTopic(@Param("topic") String topic);
+
+  @RestResource(path = "countInfoType")
+  public Long countByInfoTypeEquals(@Param("infoType") String infoType);
 }
