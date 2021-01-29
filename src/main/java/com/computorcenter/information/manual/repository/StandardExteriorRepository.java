@@ -22,6 +22,7 @@ public interface StandardExteriorRepository extends JpaRepository<StandardExteri
       value =
           "select * from standard_exterior "
               + "where ( ordernum is null or ordernum between :orderNumStart and :orderNumEnd)"
+              + " and (type is null or type like %:type%)"
               + " and (name is null or name like %:name%)"
               + " and (num is null or num like %:num%)"
               + " and (publicate_date is null or publicate_date between :publicateDateStart and :publicateDateEnd)"
@@ -69,12 +70,17 @@ public interface StandardExteriorRepository extends JpaRepository<StandardExteri
       Pageable p,
       @Param("orderNumStart") Long orderNumStart,
       @Param("orderNumEnd") Long orderNumEnd,
+      @Param("type") String type,
       @Param("name") String name,
       @Param("num") String num,
-      @Param("publicateDateStart") String publicateDateStart,
-      @Param("publicateDateEnd") String publicateDateEnd,
-      @Param("executeDateStart") String executeDateStart,
-      @Param("executeDateEnd") String executeDateEnd,
+      @Param("publicateDateStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate publicateDateStart,
+      @Param("publicateDateEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate publicateDateEnd,
+      @Param("executeDateStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate executeDateStart,
+      @Param("executeDateEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate executeDateEnd,
       @Param("specifyInstitution") String specifyInstitution,
       @Param("applicationScope") String applicationScope,
       @Param("author") String author,

@@ -16,9 +16,9 @@ public interface InformationRepository extends JpaRepository<ViewInformation, Lo
       value =
           "select * from ( "
               + "SELECT * FROM VIEW_INFORMATION "
-              + "where info_Type='industryTrend' "
+              + "where info_Type='行业动态' "
               + "order by CREATE_TIME desc "
-              + ") where ROWNUM <=3",
+              + ") where ROWNUM <=5",
       nativeQuery = true)
   public List<ViewInformation> getNewestIndustryTrend();
 
@@ -27,9 +27,9 @@ public interface InformationRepository extends JpaRepository<ViewInformation, Lo
       value =
           "select * from ( "
               + "SELECT * FROM VIEW_INFORMATION "
-              + "where info_type in ('patentExterior','paperExterior','standardExterior','briefReportExterior','reportExterior') "
+              + "where info_type in ('外部标准','行业报告','外部简报','外部论文','外部专利') "
               + "order by CREATE_TIME desc "
-              + ") where ROWNUM <=3",
+              + ") where ROWNUM <=5",
       nativeQuery = true)
   public List<ViewInformation> getNewestInfoExterior();
 
@@ -38,11 +38,15 @@ public interface InformationRepository extends JpaRepository<ViewInformation, Lo
       value =
           "select * from ( "
               + "SELECT * FROM VIEW_INFORMATION "
-              + "where info_type in ('reportInterior','briefReportInterior') "
+              + "where info_type in ('情报报告','情报简报') "
               + "order by CREATE_TIME desc "
-              + ") where ROWNUM <=3",
+              + ") where ROWNUM <=5",
       nativeQuery = true)
   public List<ViewInformation> getNewestInfoInterior();
+
+  @RestResource(path = "getNewestInfoByInfoType")
+  public List<ViewInformation> getTop5ByInfoTypeOrderByCreateTimeDesc(
+      @Param("infoType") String infoType);
 
   @RestResource(path = "getTopicInformation")
   @Query(
@@ -60,7 +64,7 @@ public interface InformationRepository extends JpaRepository<ViewInformation, Lo
               + "REFER_TECHNOLOGY like %:topic% or "
               + "REFER_CATEGORY like %:topic%  "
               + "ORDER BY CREATE_TIME desc "
-              + ") where ROWNUM <=3",
+              + ") where ROWNUM <=5",
       nativeQuery = true)
   public List<ViewInformation> getTopic(@Param("topic") String topic);
 

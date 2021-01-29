@@ -1,5 +1,6 @@
 package com.computorcenter.information.manual.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,7 +28,8 @@ public class Notice {
   @Basic(fetch = FetchType.LAZY)
   private String mainText;
 
-  private String publicateDay;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private LocalDate publicateDay;
 
   /** 创建时间 */
   @CreationTimestamp

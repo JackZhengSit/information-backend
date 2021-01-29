@@ -1,5 +1,6 @@
 package com.computorcenter.information.manual.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +28,9 @@ import java.time.LocalDate;
     })
 public class StandardExterior extends InfoBase implements Serializable {
 
+  /** 类型 */
+  private String type;
+
   /** 标准名称 */
   private String name;
 
@@ -34,9 +38,11 @@ public class StandardExterior extends InfoBase implements Serializable {
   private String num;
 
   /** 发布日 */
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate publicateDate;
 
   /** 实施日 */
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate executeDate;
 
   /** 归口单位 */

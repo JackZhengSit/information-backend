@@ -1,12 +1,8 @@
 package com.computorcenter.information.manual.dto;
 
-import org.springframework.beans.factory.annotation.Value;
+public class InfoTypeCount {
 
-public interface InfoTypeCount {
+  String getInfoType;
 
-  @Value("#{target.infoType}")
-  String getInfoType();
-
-  @Value("#{target.infoCount}")
-  Long getInfoCount();
+  Long getInfoCount;
 }
