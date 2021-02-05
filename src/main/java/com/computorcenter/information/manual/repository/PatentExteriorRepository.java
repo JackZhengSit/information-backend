@@ -30,6 +30,9 @@ public interface PatentExteriorRepository extends JpaRepository<PatentExterior, 
               + " and (publication_no is null or publication_no like %:publicationNo%)"
               //              + " and (publication_day is null or publication_day like
               // %:publicationDay%)"
+              + " and ( topic_category is null or topic_category like %:topicCategory%)"
+              + " and ( profession_field is null or profession_field like %:professionField%)"
+              + " and ( info_no is null or info_no like %:infoNo%)"
               + " and (publication_day is null or publication_day between :publicationDayStart and :publicationDayEnd)"
               + " and (priority_day is null or priority_day between :priorityDayStart and :priorityDayEnd)"
               + " and (application_type is null or application_type like %:applicationType%)"
@@ -50,7 +53,7 @@ public interface PatentExteriorRepository extends JpaRepository<PatentExterior, 
               + " and (refer_project is null or  refer_project like %:referProject%)"
               + " and (refer_institution is null or  refer_institution like %:referInstitution%)"
               + " and (refer_technology is null or  refer_technology like %:referTechnology%)"
-              + " and (refer_category is null or  refer_category like %:referCategory%)"
+              + " and (info_category is null or  info_category like %:infoCategory%)"
               + " and (department is null or  department like %:department%)"
               + " and (research_field is null or  research_field like %:researchField%)"
               + " and (research_orientation is null or  research_orientation like %:researchOrientation%)"
@@ -78,6 +81,9 @@ public interface PatentExteriorRepository extends JpaRepository<PatentExterior, 
       @Param("orderNumEnd") Long orderNumEnd,
       @Param("inventionTitile") String inventionTitile,
       @Param("applicationNo") String applicationNo,
+      @Param("topicCategory") String topicCategory,
+      @Param("professionField") String professionField,
+      @Param("infoNo") String infoNo,
       @Param("applicationDayStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate applicationDayStart,
       @Param("applicationDayEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -108,7 +114,7 @@ public interface PatentExteriorRepository extends JpaRepository<PatentExterior, 
       @Param("referProject") String referProject,
       @Param("referInstitution") String referInstitution,
       @Param("referTechnology") String referTechnology,
-      @Param("referCategory") String referCategory,
+      @Param("infoCategory") String infoCategory,
       @Param("department") String department,
       @Param("researchField") String researchField,
       @Param("researchOrientation") String researchOrientation,

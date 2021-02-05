@@ -31,7 +31,10 @@ public class ViewInformation {
   private String referProject;
   private String referInstitution;
   private String referTechnology;
-  private String referCategory;
+  private String infoCategory;
+  private String topicCategory;
+  private String professionField;
+  private String year;
   private String department;
   private String researchField;
   private String researchOrientation;

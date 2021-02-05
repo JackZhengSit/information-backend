@@ -25,6 +25,9 @@ public interface PaperExteriorRepository extends JpaRepository<PaperExterior, Lo
               + " and (paper_type is null or paper_type like %:paperType%)"
               + " and (title is null or title like %:title%)"
               + " and (author is null or author like %:author%)"
+              + " and ( topic_category is null or topic_category like %:topicCategory%)"
+              + " and ( profession_field is null or profession_field like %:professionField%)"
+              + " and ( info_no is null or info_no like %:infoNo%)"
               + " and (author_institution is null or author_institution like %:authorInstitution%)"
               + " and (first_author_institution is null or first_author_institution like %:firstAuthorInstitution%)"
               + " and (information_come_from is null or information_come_from like %:informationComeFrom%)"
@@ -55,7 +58,7 @@ public interface PaperExteriorRepository extends JpaRepository<PaperExterior, Lo
               + " and (refer_project is null or  refer_project like %:referProject%)"
               + " and (refer_institution is null or  refer_institution like %:referInstitution%)"
               + " and (refer_technology is null or  refer_technology like %:referTechnology%)"
-              + " and (refer_category is null or  refer_category like %:referCategory%)"
+              + " and (info_category is null or  info_category like %:infoCategory%)"
               + " and (department is null or  department like %:department%)"
               + " and (research_field is null or  research_field like %:researchField%)"
               + " and (research_orientation is null or  research_orientation like %:researchOrientation%)"
@@ -84,6 +87,9 @@ public interface PaperExteriorRepository extends JpaRepository<PaperExterior, Lo
       @Param("paperType") String paperType,
       @Param("title") String title,
       @Param("author") String author,
+      @Param("topicCategory") String topicCategory,
+      @Param("professionField") String professionField,
+      @Param("infoNo") String infoNo,
       @Param("authorInstitution") String authorInstitution,
       @Param("firstAuthorInstitution") String firstAuthorInstitution,
       @Param("informationComeFrom") String informationComeFrom,
@@ -122,7 +128,7 @@ public interface PaperExteriorRepository extends JpaRepository<PaperExterior, Lo
       @Param("referProject") String referProject,
       @Param("referInstitution") String referInstitution,
       @Param("referTechnology") String referTechnology,
-      @Param("referCategory") String referCategory,
+      @Param("infoCategory") String infoCategory,
       @Param("department") String department,
       @Param("researchField") String researchField,
       @Param("researchOrientation") String researchOrientation,

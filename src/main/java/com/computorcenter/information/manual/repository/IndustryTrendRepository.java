@@ -24,6 +24,9 @@ public interface IndustryTrendRepository extends JpaRepository<IndustryTrend, Lo
               + "where ( ordernum is null or ordernum between :orderNumStart and :orderNumEnd)"
               + " and (trend_type is null or trend_type like %:trendType%)"
               + " and (title is null or title like %:title%)"
+              + " and ( topic_category is null or topic_category like %:topicCategory%)"
+              + " and ( profession_field is null or profession_field like %:professionField%)"
+              + " and ( info_no is null or info_no like %:infoNo%)"
               + " and (industry_type is null or industry_type like %:industryType%)"
               + " and (industry_detail_type is null or industry_detail_type like %:industryDetailType%)"
               + " and (industry_chain_type is null or industry_chain_type like %:industryChainType%)"
@@ -33,7 +36,7 @@ public interface IndustryTrendRepository extends JpaRepository<IndustryTrend, Lo
               + " and (refer_project is null or  refer_project like %:referProject%)"
               + " and (refer_institution is null or  refer_institution like %:referInstitution%)"
               + " and (refer_technology is null or  refer_technology like %:referTechnology%)"
-              + " and (refer_category is null or  refer_category like %:referCategory%)"
+              + " and (info_category is null or  info_category like %:infoCategory%)"
               + " and (department is null or  department like %:department%)"
               + " and (research_field is null or  research_field like %:researchField%)"
               + " and (research_orientation is null or  research_orientation like %:researchOrientation%)"
@@ -70,7 +73,10 @@ public interface IndustryTrendRepository extends JpaRepository<IndustryTrend, Lo
       @Param("referProject") String referProject,
       @Param("referInstitution") String referInstitution,
       @Param("referTechnology") String referTechnology,
-      @Param("referCategory") String referCategory,
+      @Param("infoCategory") String infoCategory,
+      @Param("topicCategory") String topicCategory,
+      @Param("professionField") String professionField,
+      @Param("infoNo") String infoNo,
       @Param("department") String department,
       @Param("researchField") String researchField,
       @Param("researchOrientation") String researchOrientation,

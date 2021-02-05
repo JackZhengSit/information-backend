@@ -54,7 +54,13 @@ public class InfoBase implements Serializable {
   private String referTechnology;
 
   /** 所属类别 */
-  private String referCategory;
+  private String infoCategory;
+
+  private String topicCategory;
+
+  private String professionField;
+
+  private String infoNo;
 
   /** 部门类别 */
   private String department;

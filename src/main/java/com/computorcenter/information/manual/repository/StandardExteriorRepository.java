@@ -25,6 +25,9 @@ public interface StandardExteriorRepository extends JpaRepository<StandardExteri
               + " and (type is null or type like %:type%)"
               + " and (name is null or name like %:name%)"
               + " and (num is null or num like %:num%)"
+              + " and ( topic_category is null or topic_category like %:topicCategory%)"
+              + " and ( profession_field is null or profession_field like %:professionField%)"
+              + " and ( info_no is null or info_no like %:infoNo%)"
               + " and (publicate_date is null or publicate_date between :publicateDateStart and :publicateDateEnd)"
               + " and (execute_date is null or execute_date between :executeDateStart and :executeDateEnd)"
               + " and (specify_institution is null or specify_institution like %:specifyInstitution%)"
@@ -44,7 +47,7 @@ public interface StandardExteriorRepository extends JpaRepository<StandardExteri
               + " and (refer_project is null or  refer_project like %:referProject%)"
               + " and (refer_institution is null or  refer_institution like %:referInstitution%)"
               + " and (refer_technology is null or  refer_technology like %:referTechnology%)"
-              + " and (refer_category is null or  refer_category like %:referCategory%)"
+              + " and (info_category is null or  info_category like %:infoCategory%)"
               + " and (department is null or  department like %:department%)"
               + " and (research_field is null or  research_field like %:researchField%)"
               + " and (research_orientation is null or  research_orientation like %:researchOrientation%)"
@@ -73,6 +76,9 @@ public interface StandardExteriorRepository extends JpaRepository<StandardExteri
       @Param("type") String type,
       @Param("name") String name,
       @Param("num") String num,
+      @Param("topicCategory") String topicCategory,
+      @Param("professionField") String professionField,
+      @Param("infoNo") String infoNo,
       @Param("publicateDateStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate publicateDateStart,
       @Param("publicateDateEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -98,7 +104,7 @@ public interface StandardExteriorRepository extends JpaRepository<StandardExteri
       @Param("referProject") String referProject,
       @Param("referInstitution") String referInstitution,
       @Param("referTechnology") String referTechnology,
-      @Param("referCategory") String referCategory,
+      @Param("infoCategory") String infoCategory,
       @Param("department") String department,
       @Param("researchField") String researchField,
       @Param("researchOrientation") String researchOrientation,

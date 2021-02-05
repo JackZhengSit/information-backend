@@ -62,7 +62,7 @@ public interface InformationRepository extends JpaRepository<ViewInformation, Lo
               + "REFER_PROJECT like %:topic% or "
               + "REFER_INSTITUTION like %:topic% or "
               + "REFER_TECHNOLOGY like %:topic% or "
-              + "REFER_CATEGORY like %:topic%  "
+              + "info_category like %:topic%  "
               + "ORDER BY CREATE_TIME desc "
               + ") where ROWNUM <=5",
       nativeQuery = true)

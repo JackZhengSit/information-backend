@@ -2,11 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.computorcenter.information.manual.mapper.ViewInformationMapper">
 
-    <!--    <select id="getInfoTypeCount" resultMap="com.computorcenter.information.manual.dto.InfoTypeCount">-->
-    <!--        select-->
-    <!--        <include refid="Base_Column_List"/>-->
-    <!--        from view_information-->
-    <!--        where-->
-    <!--        file_url = #{fileUrl,jdbcType=VARCHAR}-->
-    <!--    </select>-->
+    <select id="getInfoTypeCount" resultType="com.computorcenter.information.manual.dto.InfoTypeCount">
+        select INFO_TYPE, count(id) as INFO_COUNT
+        from VIEW_INFORMATION
+        group by INFO_TYPE
+    </select>
+
+    <select id="getTopicCategoryCount" resultType="com.computorcenter.information.manual.dto.TopicCategoryCount">
+        SELECT
+	        TOPIC_CATEGORY,
+	        count( id ) AS count
+        FROM
+	        VIEW_INFORMATION
+        GROUP BY
+	        TOPIC_CATEGORY
+    </select>
+
+    <select id="getProfessionFieldCount" resultType="com.computorcenter.information.manual.dto.ProfessionFieldCount">
+        SELECT
+	        PROFESSION_FIELD,
+	        count( id ) AS count
+        FROM
+	        VIEW_INFORMATION
+        GROUP BY
+	        PROFESSION_FIELD
+    </select>
+
+    <select id="getYearCount" resultType="com.computorcenter.information.manual.dto.YearCount">
+        SELECT
+            year,
+            count( id ) AS count
+        FROM
+        VIEW_INFORMATION
+        GROUP BY
+            year
+    </select>
+
+    <select id="searchInformation"
+            resultType="com.computorcenter.information.manual.entity.ViewInformation">
+        SELECT
+	    *
+        FROM
+	        VIEW_INFORMATION
+        WHERE
+	        INFO_TYPE IN (${searchOption.infoType})
+	        AND TOPIC_CATEGORY IN (${searchOption.topicCategory})
+	        AND PROFESSION_FIELD IN (${searchOption.professionField})
+	        AND year IN (${searchOption.year})
+    </select>
 </mapper>
