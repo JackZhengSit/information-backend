@@ -7,17 +7,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-// public class CorsConfig implements WebMvcConfigurer {
-//  @Override
-//  public void addCorsMappings(CorsRegistry registry) {
-//    registry
-//        .addMapping("/**")
-//        .allowedOrigins("http://localhost:8081")
-//        .allowCredentials(true)
-//        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-//        .maxAge(3600);
-//  }
-// }
 public class CorsConfig {
   private CorsConfiguration buildconfig() {
     CorsConfiguration corsConfiguration = new CorsConfiguration();

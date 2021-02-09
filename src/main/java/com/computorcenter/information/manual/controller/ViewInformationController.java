@@ -42,4 +42,7 @@ public class ViewInformationController {
   public IPage<ViewInformation> searchInformation(@RequestBody SearchOption searchOption) {
     return viewInformationService.searchInformation(searchOption);
   }
+
+  //  @GetMapping("getInfoFile")
+  //  public
 }

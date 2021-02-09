@@ -78,7 +78,7 @@ public interface PaperExteriorRepository extends JpaRepository<PaperExterior, Lo
               + " and (language is null or  language like %:language%)"
               + " and (keywords is null or  keywords like %:keywords%)"
               + " and (information_origin is null or  information_origin like %:informationOrigin%)"
-              + " and (refer_website is null or  refer_website like %:referWebsite%) ",
+              + " and (refer_website is null or  refer_website like %:referWebsite%)",
       nativeQuery = true)
   public Page<PaperExterior> manageSearch(
       Pageable p,
