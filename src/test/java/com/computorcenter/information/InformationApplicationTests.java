@@ -1,5 +1,6 @@
 package com.computorcenter.information;
 
+import com.computorcenter.information.manual.repository.InfoAnwserRepository;
 import com.computorcenter.information.manual.repository.InformationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 class InformationApplicationTests {
 
   @Autowired InformationRepository informationRepository;
+  @Autowired InfoAnwserRepository infoAnwserRepository;
 
   @Test
-  void contextLoads() {}
+  void contextLoads() {
+    //    InfoQuestion infoQuestion = new InfoQuestion();
+    //    infoQuestion.setId((long) 1958);
+    //    InfoAnwser infoAnwser = new InfoAnwser(null, infoQuestion, "test", null, null);
+    //    infoAnwserRepository.save(infoAnwser);
+  }
 }
