@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.computorcenter.information.manual.mapper.InfoLibraryMapper">
+    <select id="searchBook" resultType="com.computorcenter.information.manual.entity.InfoLibrary">
+        select * from info_library
+        where (${option}) like CONCAT(CONCAT('%',#{text}),'%') and type='馆藏图书'
+        order by publication_date desc
+    </select>
+    <select id="searchJournal" resultType="com.computorcenter.information.manual.entity.InfoLibrary">
+        select * from info_library
+        where (${option}) like CONCAT(CONCAT('%',#{text}),'%') and type='所内期刊'
+        and title like CONCAT(CONCAT('%',#{type}),'%')
+        order by id asc, (${sort}) desc 
+    </select>
+</mapper>
