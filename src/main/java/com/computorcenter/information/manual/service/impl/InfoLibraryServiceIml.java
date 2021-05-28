@@ -19,8 +19,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class InfoLibraryServiceIml extends ServiceImpl<InfoLibraryMapper, InfoLibrary>
@@ -121,14 +125,18 @@ public class InfoLibraryServiceIml extends ServiceImpl<InfoLibraryMapper, InfoLi
     deleteFileById(id);
 
     String filename = multipartFile.getOriginalFilename();
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    String dateString = df.format(new Date());
+    UUID randomUUID = UUID.randomUUID();
+    String uniqueFileName = dateString + "-" + randomUUID + "-" + filename;
 
     savePathStr += "/file/info-library";
     Path savePath = getFileStoreAbsolutePath(savePathStr);
-    Path targetLocation = savePath.resolve(filename);
+    Path targetLocation = savePath.resolve(uniqueFileName);
     Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
     InfoLibrary lib = infoLibraryRepository.getOne(id);
-    lib.setFilePath(filename);
+    lib.setFilePath(uniqueFileName);
     infoLibraryRepository.save(lib);
   }
 
@@ -149,14 +157,18 @@ public class InfoLibraryServiceIml extends ServiceImpl<InfoLibraryMapper, InfoLi
     deleteFileById(id);
 
     String filename = multipartFile.getOriginalFilename();
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    String dateString = df.format(new Date());
+    UUID randomUUID = UUID.randomUUID();
+    String uniqueFileName = dateString + "-" + randomUUID + "-" + filename;
 
     savePathStr += "/file/info-library/pic";
     Path savePath = getFileStoreAbsolutePath(savePathStr);
-    Path targetLocation = savePath.resolve(filename);
+    Path targetLocation = savePath.resolve(uniqueFileName);
     Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
     InfoLibrary lib = infoLibraryRepository.getOne(id);
-    lib.setImgPath(filename);
+    lib.setImgPath(uniqueFileName);
     infoLibraryRepository.save(lib);
   }
 

@@ -8,8 +8,8 @@
     </select>
     <select id="searchJournal" resultType="com.computorcenter.information.manual.entity.InfoLibrary">
         select * from info_library
-        where (${option}) like CONCAT(CONCAT('%',#{text}),'%') and type='所内期刊'
+        where (${option}) like CONCAT(CONCAT('%',#{text}),'%') and type='期刊杂志'
         and title like CONCAT(CONCAT('%',#{type}),'%')
-        order by id asc, (${sort}) desc 
+        order by  (${sort}) desc
     </select>
 </mapper>
