@@ -58,6 +58,6 @@
         <if test="searchOption.searchType!='all' and searchOption.searchType!=null">
             AND ${searchOption.searchType} like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
         </if>
-        order by create_time desc
+        order by id desc, format_time desc
     </select>
 </mapper>
