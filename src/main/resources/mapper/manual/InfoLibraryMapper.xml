@@ -4,12 +4,12 @@
     <select id="searchBook" resultType="com.computorcenter.information.manual.entity.InfoLibrary">
         select * from info_library
         where (${option}) like CONCAT(CONCAT('%',#{text}),'%') and type='馆藏图书'
-        order by publication_date desc
+        order by check_in_time desc, id desc
     </select>
     <select id="searchJournal" resultType="com.computorcenter.information.manual.entity.InfoLibrary">
         select * from info_library
         where (${option}) like CONCAT(CONCAT('%',#{text}),'%') and type='期刊杂志'
         and title like CONCAT(CONCAT('%',#{type}),'%')
-        order by  (${sort}) desc
+        order by  (${sort}) desc , id desc
     </select>
 </mapper>
