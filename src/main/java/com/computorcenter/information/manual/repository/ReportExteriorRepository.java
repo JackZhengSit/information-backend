@@ -20,8 +20,8 @@ public interface ReportExteriorRepository extends JpaRepository<ReportExterior, 
   @RestResource(path = "manageSearch", rel = "manageSearch", exported = true)
   @Query(
       value =
-          "select * from report_exterior "
-              + "where ( ordernum is null or ordernum between :orderNumStart and :orderNumEnd)"
+          "select * from report_exterior"
+              + " where ( ordernum is null or ordernum between :orderNumStart and :orderNumEnd)"
               + " and (type is null or type like %:type%)"
               + " and (complete_department is null or complete_department like %:completeDepartment%)"
               + " and (title is null or title like %:title%)"

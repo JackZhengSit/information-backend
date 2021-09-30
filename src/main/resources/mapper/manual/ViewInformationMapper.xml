@@ -46,18 +46,18 @@
         FROM
         VIEW_INFORMATION
         WHERE
-        INFO_TYPE IN (${searchOption.infoType})
-        AND TOPIC_CATEGORY IN (${searchOption.topicCategory})
-        AND PROFESSION_FIELD IN (${searchOption.professionField})
-        AND year IN (${searchOption.year})
+        <if test="searchOption.infoType!=''">INFO_TYPE IN (${searchOption.infoType}) AND</if>
+        <if test="searchOption.topicCategory!=''">TOPIC_CATEGORY IN (${searchOption.topicCategory}) AND</if>
+        <if test="searchOption.professionField!=''">PROFESSION_FIELD IN (${searchOption.professionField})AND</if>
+        <if test="searchOption.year!=''">year IN (${searchOption.year}) AND</if>
         <if test="searchOption.searchType=='all'">
-            AND ( INFO_TITLE like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
+            ( INFO_TITLE like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
             OR INFO_AUTHOR like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
             OR KEYWORDS like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%') )
         </if>
         <if test="searchOption.searchType!='all' and searchOption.searchType!=null">
             AND ${searchOption.searchType} like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
         </if>
-        order by id desc, format_time desc
+        order by format_time desc, id desc
     </select>
 </mapper>

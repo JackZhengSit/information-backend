@@ -20,8 +20,8 @@ public interface PaperExteriorRepository extends JpaRepository<PaperExterior, Lo
   @RestResource(path = "manageSearch", rel = "manageSearch", exported = true)
   @Query(
       value =
-          "select * from paper_exterior "
-              + "where ( ordernum is null or ordernum between :orderNumStart and :orderNumEnd)"
+          "select * from paper_exterior  t"
+              + " where ( ordernum is null or ordernum between :orderNumStart and :orderNumEnd)"
               + " and (paper_type is null or paper_type like %:paperType%)"
               + " and (title is null or title like %:title%)"
               + " and (author is null or author like %:author%)"
