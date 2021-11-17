@@ -17,5 +17,5 @@ import java.util.List;
 public interface ImportantProductRepository extends JpaRepository<ImportantProduct, Long> {
     @RestResource(path = "getAllByProductName", rel = "manageSearch", exported = true)
     @Query(value = "select * from important_product where product_name like %:productName%",nativeQuery = true)
-    public Page<ImportantProduct> manageSearch(@Param("productName") String productName, Pageable page);
+    public List<ImportantProduct> manageSearch(@Param("productName") String productName, Pageable page);
 }
