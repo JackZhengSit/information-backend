@@ -13,6 +13,7 @@ import java.util.List;
 public interface InfoProductRelRepository extends JpaRepository<InfoProductRel,Long> {
 
     @RestResource(path = "getAllRelate",  exported = true)
-    @Query(value = "select * from info_product_rel where info_id = :originId and info_type = :infoType",nativeQuery = true)
+    @Query(value = "select * from info_product_rel where origin_id = :originId and info_type = :infoType",nativeQuery = true)
     public List<InfoProductRel> getAllRelate(@Param("originId")String originId, @Param("infoType")String infoType);
+
 }

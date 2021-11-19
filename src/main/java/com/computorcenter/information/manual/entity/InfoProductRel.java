@@ -18,7 +18,9 @@ public class InfoProductRel {
 
     private Long importantProductId;
 
+    private String productName;
+
     private String infoType;
 
-    private String infoId;
+    private String originId;
 }
