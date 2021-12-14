@@ -60,4 +60,5 @@ public class ViewInformation {
   private String fileName;
   private LocalDateTime createTime;
   private LocalDateTime updateTime;
+  private String productName;
 }

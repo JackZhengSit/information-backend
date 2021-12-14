@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.computorcenter.information.manual.controller.requestbody.SearchOption;
-import com.computorcenter.information.manual.dto.InfoTypeCount;
-import com.computorcenter.information.manual.dto.ProfessionFieldCount;
-import com.computorcenter.information.manual.dto.TopicCategoryCount;
-import com.computorcenter.information.manual.dto.YearCount;
+import com.computorcenter.information.manual.dto.*;
 import com.computorcenter.information.manual.entity.ViewInformation;
 import com.computorcenter.information.manual.mapper.ViewInformationMapper;
 import com.computorcenter.information.manual.service.IViewInformationService;
@@ -41,6 +38,12 @@ public class ViewInformationServiceImpl extends ServiceImpl<ViewInformationMappe
   public List<YearCount> getYearCount() {
     return viewInformationMapper.getYearCount();
   }
+
+  @Override
+  public List<ImportantProductCount> getProductCount() {
+    return viewInformationMapper.getProductCount();
+  }
+
 
   @Override
   public IPage<ViewInformation> searchInformation(SearchOption searchOption) {

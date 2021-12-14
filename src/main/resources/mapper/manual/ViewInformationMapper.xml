@@ -39,6 +39,12 @@
         ORDER BY year desc
     </select>
 
+    <select id="getProductCount" resultType="com.computorcenter.information.manual.dto.ImportantProductCount">
+        select b.PRODUCT_NAME, count(a.id) as count
+        from INFO_PRODUCT_REL a left join IMPORTANT_PRODUCT b on b.ID = a.IMPORTANT_PRODUCT_ID
+        group by b.PRODUCT_NAME
+    </select>
+
     <select id="searchInformation"
             resultType="com.computorcenter.information.manual.entity.ViewInformation">
         SELECT
@@ -46,10 +52,16 @@
         FROM
         VIEW_INFORMATION
         WHERE
-        <if test="searchOption.infoType!=''">INFO_TYPE IN (${searchOption.infoType}) AND</if>
-        <if test="searchOption.topicCategory!=''">TOPIC_CATEGORY IN (${searchOption.topicCategory}) AND</if>
-        <if test="searchOption.professionField!=''">PROFESSION_FIELD IN (${searchOption.professionField})AND</if>
-        <if test="searchOption.year!=''">year IN (${searchOption.year}) AND</if>
+        <if test="searchOption.infoType!=''">INFO_TYPE IN (${searchOption.infoType}) AND </if>
+        <if test="searchOption.topicCategory!=''">TOPIC_CATEGORY IN (${searchOption.topicCategory}) AND </if>
+        <if test="searchOption.professionField!=''">PROFESSION_FIELD IN (${searchOption.professionField}) </if>
+        <if test="searchOption.productName.size()>0">
+           AND
+            <foreach collection="searchOption.productName" item="item" index="index">
+               <if test="index!=0"> OR </if> PRODUCT_NAME like CONCAT(CONCAT('%',#{item}),'%')
+            </foreach>
+        </if>
+        <if test="searchOption.year!=''">AND year IN (${searchOption.year}) AND </if>
         <if test="searchOption.searchType=='all'">
             ( INFO_TITLE like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
             OR INFO_AUTHOR like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')

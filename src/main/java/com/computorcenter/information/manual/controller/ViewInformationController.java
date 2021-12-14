@@ -2,10 +2,7 @@ package com.computorcenter.information.manual.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.computorcenter.information.manual.controller.requestbody.SearchOption;
-import com.computorcenter.information.manual.dto.InfoTypeCount;
-import com.computorcenter.information.manual.dto.ProfessionFieldCount;
-import com.computorcenter.information.manual.dto.TopicCategoryCount;
-import com.computorcenter.information.manual.dto.YearCount;
+import com.computorcenter.information.manual.dto.*;
 import com.computorcenter.information.manual.entity.ViewInformation;
 import com.computorcenter.information.manual.service.IViewInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +33,12 @@ public class ViewInformationController {
   @GetMapping("getYearCount")
   public List<YearCount> getYearCount() {
     return viewInformationService.getYearCount();
+  }
+
+  @GetMapping("getProductCount")
+  public List<ImportantProductCount> getProductCount(){
+    return viewInformationService.getProductCount();
+
   }
 
   @PostMapping("searchInformation")
