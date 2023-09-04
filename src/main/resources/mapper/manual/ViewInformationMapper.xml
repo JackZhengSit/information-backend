@@ -64,11 +64,12 @@
         <if test="searchOption.year!=''">AND year IN (${searchOption.year}) AND </if>
         <if test="searchOption.searchType=='all'">
             ( INFO_TITLE like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
+            OR INFO_CODE like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
             OR INFO_AUTHOR like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
             OR KEYWORDS like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%') )
         </if>
         <if test="searchOption.searchType!='all' and searchOption.searchType!=null">
-            AND ${searchOption.searchType} like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
+            ${searchOption.searchType} like CONCAT(CONCAT('%',#{searchOption.searchInput}),'%')
         </if>
         order by format_time desc, id desc
     </select>

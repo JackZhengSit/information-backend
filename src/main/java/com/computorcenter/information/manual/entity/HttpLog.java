@@ -2,34 +2,39 @@ package com.computorcenter.information.manual.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
-public class ImportantProduct {
+@Table(indexes = {@Index(name = "idx_httplog_create_time", columnList = "create_time")})
+public class HttpLog {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    /** 产品名称 */
-    String productName;
+    private String sessionId;
 
-    /** 创建时间 */
+    private String ip;
+
+    private String url;
+
+    private String action;
+
+    private String params;
+
+    private String errorMessage;
+
     @CreationTimestamp
     @Column(updatable = false, name = "create_time")
-    private LocalDateTime createTime;
-
-    /** 更新时间 */
-    @UpdateTimestamp
-    private LocalDateTime updateTime;
+    private Date createTime;
 }
